@@ -631,14 +631,15 @@ Option name=allow_opens value=1
 
 # custom routing options
 #Option name=nets_to_route value=voutp,vbiasp,vbiasnd,vbiasn,net16,net27
-#Option name=nets_to_route value=vin_o,vip_o
+#Option nnweame=nets_to_route value=vin_o,vip_o
 #Option name=nets_to_route value=clk
 #Option name=nets_to_route value=von,vop
+#Option name=nets_to_route value=vssx,vcc_0p9
 #Option name=nets_to_route value=vssx
 #Option name=nets_to_route value=vcc_0p9
 
-Option name=nets_not_to_route value=!kor,vssx,vcc_0p9
-#Option name=nets_not_to_route value=!kor
+#Option name=nets_not_to_route value=!kor,vssx,vcc_0p9
+Option name=nets_not_to_route value=!kor
 
 #Option name=nets_not_to_route value=!kor,id,net16,net24,net27,net8b,net9b,vbiasn,vbiasnd,vbiasp,vdd,vss,vinn,vinp,voutp
 
