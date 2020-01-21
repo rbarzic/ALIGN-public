@@ -39,7 +39,7 @@
 "GdsDatatype": {"Draw":0, "c1":1, "c2":2, "Pin":3, "Label":4, "Blockage":5},
 "Direction": "V",
 "Color": ["c1", "c2"],
-"Pitch": 80,
+"Pitch": 40,
 "Width": 32,
 "MinL": 180,
 "MaxL": null,

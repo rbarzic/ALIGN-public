@@ -120,7 +120,7 @@ class MOSGenerator(DefaultCanvas):
 
         grid_y0 = y*self.m2PerUnitCell + self.finDummy//2-1
         grid_y1 = grid_y0+(self.finsPerUnitCell - 2*self.finDummy + 2)//2
-        gate_x = x * self.gatesPerUnitCell + self.gatesPerUnitCell // 2
+        gate_x = 2*x * self.gatesPerUnitCell + (2*self.gatesPerUnitCell) // 2
         # Connect Gate (gate_x)
         self.addWire( self.m1, None, None, gate_x , (grid_y0, -1), (grid_y1, 1))
         self.addVia( self.va, f'{fullname}:G', None, gate_x, (y*self.m2PerUnitCell//2, 1))
@@ -128,9 +128,9 @@ class MOSGenerator(DefaultCanvas):
         # Connect Source & Drain
         if reflect:
             _connect_diffusion(gate_x + 1, 'S') #S
-            _connect_diffusion(gate_x - 1, 'D') #D
+            _connect_diffusion(gate_x-1, 'D') #D
         else:
-            _connect_diffusion(gate_x - 1, 'S') #S
+            _connect_diffusion(gate_x-1, 'S') #S
             _connect_diffusion(gate_x + 1, 'D') #D
 
     def _connectDevicePins(self, y, connections):
@@ -180,7 +180,7 @@ class MOSGenerator(DefaultCanvas):
                         minx, maxx = _get_wire_terminators([*locs, current_track])
                         self.addWire(self.m2, net, None, i, (minx, -1), (maxx, 1))
 
-        self.addWire( self.m2, 'B', 'B', (y_cells)* self.m2PerUnitCell + self.lFin//4, (0, 1), (x_cells*self.gatesPerUnitCell, -1))
+        self.addWire( self.m2, 'B', 'B', (y_cells)* self.m2PerUnitCell + self.lFin//4, (0, 1), (2*x_cells*self.gatesPerUnitCell, -1))
 
     def _addBodyContact(self, x, y, yloc=None, name='M1'):
         fullname = f'{name}_X{x}_Y{y}'
@@ -188,7 +188,7 @@ class MOSGenerator(DefaultCanvas):
             y = yloc
         h = self.m2PerUnitCell
         gu = self.gatesPerUnitCell
-        gate_x = x*gu + gu // 2
+        gate_x = 2*x*gu + 2*gu // 2
         self._xpins[name]['B'].append(gate_x)
         self.addWire( self.activeb, None, None, y, (x,1), (x+1,-1))
         self.addWire( self.pb, None, None, y, (x,1), (x+1,-1))
