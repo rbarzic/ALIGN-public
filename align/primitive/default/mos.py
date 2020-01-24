@@ -119,11 +119,11 @@ class MOSGenerator(DefaultCanvas):
         # Source, Drain, Gate Connections
 
         grid_y0 = y*self.m2PerUnitCell + self.finDummy//2-1
-        grid_y1 = grid_y0+(self.finsPerUnitCell - 2*self.finDummy + 2)//2
+        grid_y1 = grid_y0+(self.finsPerUnitCell - 2*self.finDummy + 2)//2-1
         gate_x = 2*x * self.gatesPerUnitCell + (2*self.gatesPerUnitCell) // 2
         # Connect Gate (gate_x)
-        self.addWire( self.m1, None, None, gate_x , (grid_y0, -1), (grid_y1, 1))
-        self.addVia( self.va, f'{fullname}:G', None, gate_x, (y*self.m2PerUnitCell//2, 1))
+        self.addWire( self.m1, None, None, gate_x , (grid_y1+2, -1), (grid_y1+4, 1))
+        #self.addVia( self.va, f'{fullname}:G', None, gate_x, (y*self.m2PerUnitCell//2, 1))
         self._xpins[name]['G'].append(gate_x)
         # Connect Source & Drain
         if reflect:
@@ -140,13 +140,16 @@ class MOSGenerator(DefaultCanvas):
                               for pin, m1tracks in pins.items()
                               for track in m1tracks if (inst, pin) in conn}
             for j in range(self.minvias):
-                current_track = y * self.m2PerUnitCell + len(connections) * j + track
+                if net.startswith('G'):
+                    current_track = y * self.m2PerUnitCell + 5 + track
+                else:
+                    current_track = y * self.m2PerUnitCell + len(connections) * j + track
                 self.addWireAndViaSet(net, None, self.m2, self.v1, current_track, contacts)
                 self._nets[net][current_track] = contacts
                 # Extend m1 if needed. TODO: Should we draw longer M1s to begin with?
                 direction = 1 if current_track > center_track else -1
-                for i in contacts:
-                    self.addWire( self.m1, net, None, i, (center_track, -1 * direction), (current_track, direction))
+                #for i in contacts:
+                #    self.addWire( self.m1, net, None, i, (center_track, -1 * direction), (current_track, direction))
 
 
     def _connectNets(self, x_cells, y_cells): 
